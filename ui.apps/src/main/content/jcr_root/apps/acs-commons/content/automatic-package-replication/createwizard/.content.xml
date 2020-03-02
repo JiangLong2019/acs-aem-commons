@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Create Automatic Package Replication Configuration"
+        sling:resourceType="granite/ui/components/coral/foundation/page">
+        <head jcr:primaryType="nt:unstructured">
+            <viewport
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/admin/page/viewport"/>
+            <favicon
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/page/favicon"/>
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/includeclientlibs"
+                categories="[coralui3,granite.ui.coral.foundation,acs-commons.utilities.apr-creation]"/>
+        </head>
+        <body
+            jcr:primaryType="nt:unstructured"
+            sling:resourceType="granite/ui/components/coral/foundation/page/body">
+            <items jcr:primaryType="nt:unstructured">
+                <form
+                    granite:id="cq-workflow-admin-launchers-wizard-form"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form"
+                    action="/bin/acs-commons/aprmanageconfiguration"
+                    foundationForm="{Boolean}true"
+                    maximized="{Boolean}true"
+                    method="post"
+                    novalidate="{Boolean}true"
+                    style="vertical">
+                    <successresponse
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Success"
+                        sling:resourceType="cq/workflow/admin/console/components/form/responses/redirect"
+                        redirect="/apps/acs-commons/content/automatic-package-replication.html"
+                        text="The configuration was created successfully."/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <charset
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                            name="_charset_"
+                            value="utf-8"/>
+                        <status
+                            jcr:primaryType="nt:unstructured"
+                            sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                            ignoreData="{Boolean}true"
+                            name=":status"
+                            value="browser"/>
+                        <wizard
+                            granite:rel="cq-workflow-admin-launchers-wizard"
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Create Automatic Package Replication Configuration"
+                            sling:resourceType="granite/ui/components/coral/foundation/wizard"
+                            cancelHref="/apps/acs-commons/content/automatic-package-replication.html">
+                            <items jcr:primaryType="nt:unstructured">
+                                <settings
+                                    jcr:primaryType="nt:unstructured"
+                                    jcr:title="Settings"
+                                    sling:resourceType="granite/ui/components/coral/foundation/container">
+                                    <items jcr:primaryType="nt:unstructured">
+                                        <properties
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/foundation/container"
+                                            rel="cq-workflow-admin-launchers-addlauncher-properties">
+                                            <layout
+                                                jcr:primaryType="nt:unstructured"
+                                                sling:resourceType="granite/ui/components/foundation/layouts/fixedcolumns"/>
+                                            <items jcr:primaryType="nt:unstructured">
+                                                <column
+                                                    jcr:primaryType="nt:unstructured"
+                                                    sling:resourceType="granite/ui/components/foundation/container">
+                                                    <items jcr:primaryType="nt:unstructured">
+                                                    	<id jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="ID"
+                                                            name="jcr:title"
+                                                            required="{Boolean}true"/>
+                                                        <description
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Description"
+                                                            name="jcr:description"/>
+                                                    	<packagepath
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/pathfield"
+                                                            fieldLabel="Package Path"
+                                                            name="packagePath"
+                                                            required="{Boolean}true"
+                                                            filter="hierarchy"
+                                                            rootPath="/etc/packages"/>
+                                                    	<trigger
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/select"
+                                                            fieldLabel="Trigger"
+                                                            name="trigger"
+                                                            required="{Boolean}true">
+                                                            <items jcr:primaryType="nt:unstructured">
+                                                                <event
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    selected="{Boolean}true"
+                                                                    text="Sling Event"
+                                                                    value="event"/>
+                                                                <cron
+                                                                    jcr:primaryType="nt:unstructured"
+                                                                    text="Cron"
+                                                                    value="cron"/>
+                                                            </items>
+                                                        </trigger>
+                                                    	<eventfilter
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Event Filter"
+                                                            name="eventFilter"/>
+                                                    	<eventtopic
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Event Topic"
+                                                            name="eventTopic"/>
+                                                        <crontrigger
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/textfield"
+                                                            fieldLabel="Cron Trigger"
+                                                            name="cronTrigger"/>    
+                                                    
+                                                    	<charset
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                                                            name="_charset_"
+                                                            value="utf-8"/>
+                                                        <add
+                                                            jcr:primaryType="nt:unstructured"
+                                                            sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                                                            name="add"
+                                                            value="true"/>
+                                                    </items>
+                                                </column>
+                                            </items>
+                                        </properties>
+                                    </items>
+                                    <parentConfig jcr:primaryType="nt:unstructured">
+                                        <prev
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/anchorbutton"
+                                            href="/apps/acs-commons/content/automatic-package-replication.html"
+                                            text="Cancel"
+                                            variant="quiet">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="cancel"/>
+                                        </prev>
+                                        <next
+                                            granite:class="foundation-wizard-control"
+                                            jcr:primaryType="nt:unstructured"
+                                            sling:resourceType="granite/ui/components/coral/foundation/button"
+                                            disabled="{Boolean}true"
+                                            text="Create"
+                                            type="submit"
+                                            variant="primary">
+                                            <granite:data
+                                                jcr:primaryType="nt:unstructured"
+                                                foundation-wizard-control-action="next"/>
+                                        </next>
+                                    </parentConfig>
+                                </settings>
+                            </items>
+                        </wizard>
+                    </items>
+                </form>
+            </items>
+        </body>
+    </jcr:content>
+</jcr:root>

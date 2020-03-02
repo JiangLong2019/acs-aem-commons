@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jcr:root xmlns:sling="http://sling.apache.org/jcr/sling/1.0" xmlns:granite="http://www.adobe.com/jcr/granite/1.0" xmlns:cq="http://www.day.com/jcr/cq/1.0" xmlns:jcr="http://www.jcp.org/jcr/1.0" xmlns:nt="http://www.jcp.org/jcr/nt/1.0"
+    jcr:primaryType="cq:Page">
+    <properties/>
+    <jcr:content
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Automatic Package Replication"
+        sling:redirect="{Boolean}false"
+        sling:resourceType="granite/ui/components/shell/collectionpage"
+        consoleId="cq-workflow-launchers"
+        contentPath="/etc/workflow/launcher"
+        currentView="${state[&quot;shell.collectionpage.layoutId&quot;].string}"
+        modeGroup="cq-workflow-admin-launchers"
+        targetCollection=".cq-workflow-admin-launchers">
+        <head jcr:primaryType="nt:unstructured">
+            <clientlibs
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/foundation/includeclientlibs"
+                categories="[coralui3,granite.ui.coral.foundation,cq.workflow.admin,acs-commons.utilities.apr-creation]"/>
+        </head>
+        <views jcr:primaryType="nt:unstructured">
+            <list
+                granite:rel="cq-workflow-admin-launchers"
+                jcr:primaryType="nt:unstructured"
+                jcr:title="List View"
+                sling:resourceType="granite/ui/components/coral/foundation/table"
+                icon="viewList"
+                layoutId="list"
+                limit="{Long}40"
+                metaResourceType="cq/gui/components/coral/admin/page/meta"
+                modeGroup="cq-workflow-admin-launchers"
+                path="${requestPathInfo.suffix}"
+                selectionMode="row"
+                sortMode="remote"
+                stateId="shell.collectionpage">
+                <columns jcr:primaryType="nt:unstructured">
+                    <select
+                        jcr:primaryType="nt:unstructured"
+                        select="{Boolean}true"/>
+                    <id
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="ID"/>
+                    <description
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Description"/>    
+                    <package
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Package Path"/>
+                    <trigger
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Trigger"/>
+                    <crontrigger
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Cron Trigger"/>                        
+                    <eventfilter
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Event Filter"/>
+                    <eventtopic
+                        jcr:primaryType="nt:unstructured"
+                        jcr:title="Event Topic"/>                                                	                
+                </columns>
+                <datasource
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="acs-commons/components/utilities/automatic-package-replication/arpdatasource"
+                    itemResourceType="acs-commons/components/utilities/automatic-package-replication/arpdatasourceitem"
+                    limit="${empty requestPathInfo.selectors[1] ? &quot;41&quot; : requestPathInfo.selectors[1] + 1}"
+                    offset="${requestPathInfo.selectors[0]}"
+                    path="${requestPathInfo.suffix}"/>
+            </list>
+        </views>
+        <actions jcr:primaryType="nt:unstructured">
+            <secondary jcr:primaryType="nt:unstructured">
+                <create
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/pulldown"
+                    text="Create"
+                    variant="primary">
+                    <granite:rendercondition
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/renderconditions/privilege"
+                        path="/conf/global/settings/workflow"
+                        privileges="[jcr:write]"/>
+                    <items jcr:primaryType="nt:unstructured">
+                        <createlauncher
+                            granite:rel="cq-workflow-admin-launchers-createlauncher"
+                            jcr:primaryType="nt:unstructured"
+                            jcr:title="Create Launcher"
+                            sling:resourceType="granite/ui/components/coral/foundation/collection/actionlink"
+                            action="foundation.link"
+                            target=".cq-workflow-admin-launchers"
+                            text="Add Configuration">
+                            <data
+                                jcr:primaryType="nt:unstructured"
+                                href.uritemplate="/apps/acs-commons/content/automatic-package-replication/createwizard.html"/>
+                        </createlauncher>
+                    </items>
+                </create>
+            </secondary>
+            <selection jcr:primaryType="nt:unstructured">
+                <viewproperties
+                    granite:rel="cq-workflow-admin-launchers-action-viewproperties"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    action="foundation.link"
+                    activeSelectionCount="single"
+                    icon="infoCircle"
+                    target=".cq-workflow-admin-launchers"
+                    text="Edit"
+                    variant="actionBar">
+                    <data
+                        jcr:primaryType="nt:unstructured"
+                        href.uritemplate="/apps/acs-commons/content/automatic-package-replication/properties.html{?item*}"/>
+                </viewproperties>
+                <deletelauncher
+                    granite:rel="cq-workflow-admin-launchers-action-delete"
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/collection/action"
+                    action="foundation.dialog"
+                    activeSelectionCount="multiple"
+                    icon="delete"
+                    target=".cq-workflow-admin-launchers"
+                    text="Delete"
+                    title="Delete"
+                    variant="actionBar">
+                    <data
+                        jcr:primaryType="nt:unstructured"
+                        src.uritemplate="/apps/acs-commons/content/automatic-package-replication/deletelauncherdialog.html"/>
+                </deletelauncher>
+            </selection>
+        </actions>
+    </jcr:content>
+    <createwizard/>
+    <deletelauncherdialog
+        granite:id="cq-workflow-admin-launchers-action-delete-modal"
+        jcr:primaryType="nt:unstructured"
+        jcr:title="Delete"
+        sling:resourceType="granite/ui/components/coral/foundation/dialog">
+        <items jcr:primaryType="nt:unstructured">
+            <form
+                granite:id="delete-launcher-form"
+                granite:rel="cq-workflow-admin-actions-delete-launcher"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/form"
+                action="/bin/acs-commons/aprmanageconfiguration"
+                foundationForm="{Boolean}true"
+                method="post"
+                style="vertical">
+                <successresponse
+                    jcr:primaryType="nt:unstructured"
+                    sling:resourceType="granite/ui/components/coral/foundation/form/responses/reload"
+                    target=".cq-workflow-admin-launchers"/>
+                <items jcr:primaryType="nt:unstructured">
+                    <label
+                        granite:class="launcher-intro"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/text">
+                        <granite:data
+                            jcr:primaryType="nt:unstructured"
+                            template-multiple="You are going to delete the following {0} launchers:"
+                            template-single="You are going to delete the following launcher:"/>
+                    </label>
+                    <launchers
+                        granite:class="launchers"
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/text"/>
+                    <delete
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                        name="delete"/>
+                    <charset
+                        jcr:primaryType="nt:unstructured"
+                        sling:resourceType="granite/ui/components/coral/foundation/form/hidden"
+                        name="_charset_"
+                        value="utf-8"/>
+                </items>
+            </form>
+        </items>
+        <footer jcr:primaryType="nt:unstructured">
+            <cancel
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/button"
+                text="Cancel">
+                <parentConfig
+                    jcr:primaryType="nt:unstructured"
+                    close="{Boolean}true"/>
+            </cancel>
+            <delete
+                granite:rel="perform-instance-action"
+                jcr:primaryType="nt:unstructured"
+                sling:resourceType="granite/ui/components/coral/foundation/button"
+                text="Delete"
+                variant="warning"/>
+        </footer>
+    </deletelauncherdialog>
+</jcr:root>
